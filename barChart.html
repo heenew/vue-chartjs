@@ -1,0 +1,39 @@
+<body>
+  <div id="app">{{ message }}</div>
+  <canvas id="myChart"></canvas>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  var app = new Vue({
+    el: "#app",
+    data: {
+      message: "Hello Vue!",
+    },
+  });
+</script>
+<script>
+  const labels = ["January", "February", "March", "April", "May", "June"];
+
+  const data = {
+    labels: labels,
+    datasets: [
+      {
+        label: "My First dataset",
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgb(255, 99, 132)",
+        data: [0, 10, 5, 2, 20, 30, 45],
+      },
+    ],
+  };
+
+  const config = {
+    type: "line",
+    data: data,
+    options: {},
+  };
+</script>
+
+<script>
+  const myChart = new Chart(document.getElementById("myChart"), config);
+</script>
