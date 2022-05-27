@@ -9,44 +9,25 @@
   <body>
     <div id="app">
       {{ message }}
-      <line-chart></line-chart>
+      <line-chart> </line-chart>
+      <button v-on:click="addTodo">문자열 추가</button>
     </div>
 
     <script>
       Vue.component("line-chart", {
         extends: VueChartJs.Line,
+        template: "<div>21ddddddddddd3</div>",
+
         data() {
           return {
             countries: [],
             country: [],
+            number: 3,
           };
         },
+
         mounted() {
           this.fetchCases();
-          console.log(this.countries);
-          this.renderChart(
-            {
-              labels: [
-                //this.country,
-                //"January"   ,
-                this.country[1],
-                "February",
-                "March",
-                "April",
-                "May",
-                "June",
-                "Julay",
-              ],
-              datasets: [
-                {
-                  label: "Data One",
-                  backgroundColor: "#f87979",
-                  data: [40, 39, 10, 40, 39, 80, 40],
-                },
-              ],
-            },
-            { responsive: true, maintainAspectRatio: false }
-          );
         },
         methods: {
           async fetchData(method, url, params) {
@@ -64,7 +45,29 @@
               this.country[i] = summary.Countries[i].Country;
             }
 
-            console.log(this.country[1]);
+            this.renderChart(
+              {
+                labels: [
+                  //this.country,
+                  //"January"   ,
+                  this.country[1],
+                  "February",
+                  "March",
+                  "April",
+                  "May",
+                  "June",
+                  "Julay",
+                ],
+                datasets: [
+                  {
+                    label: "Data One",
+                    backgroundColor: "#f87979",
+                    data: [this.number, 39, 10, 40, 39, 80, 40],
+                  },
+                ],
+              },
+              { responsive: true, maintainAspectRatio: false }
+            );
           },
         },
       });
@@ -73,6 +76,11 @@
         el: "#app",
         data: {
           message: "Hello World",
+        },
+        methods: {
+          addTodo() {
+            alert("Hi");
+          },
         },
       });
     </script>
