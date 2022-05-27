@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>vue-chartjs example</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
+    <script src="https://unpkg.com/vue-chartjs@2.5.7-rc3/dist/vue-chartjs.full.min.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      {{ message }}
+      <line-chart></line-chart>
+    </div>
+
+    <script>
+      Vue.component("line-chart", {
+        extends: VueChartJs.Line,
+        data() {
+          return {
+            countries: [],
+            country: [],
+          };
+        },
+        mounted() {
+          this.fetchCases();
+          console.log(this.countries);
+          this.renderChart(
+            {
+              labels: [
+                //this.country,
+                //"January"   ,
+                this.country[1],
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "Julay",
+              ],
+              datasets: [
+                {
+                  label: "Data One",
+                  backgroundColor: "#f87979",
+                  data: [40, 39, 10, 40, 39, 80, 40],
+                },
+              ],
+            },
+            { responsive: true, maintainAspectRatio: false }
+          );
+        },
+        methods: {
+          async fetchData(method, url, params) {
+            const res = await axios[method](url, { params });
+            return res.data;
+          },
+          async fetchCases() {
+            const url = "https://api.covid19api.com/summary";
+            const summary = await this.fetchData("get", url);
+            console.log(summary, "res");
+            console.log(summary.Countries);
+            this.countries = summary.Countries;
+            //console.log(this.countries.length);
+            for (i = 0; i < this.countries.length; i++) {
+              this.country[i] = summary.Countries[i].Country;
+            }
+
+            console.log(this.country[1]);
+          },
+        },
+      });
+
+      var vm = new Vue({
+        el: "#app",
+        data: {
+          message: "Hello World",
+        },
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <!-- cdn방식으로 라이브러리를 가져옴 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script src="https://unpkg.com/vue-chartjs@3.4.0/dist/vue-chartjs.js"></script>
+    <!-- <script src="https://unpkg.com/vue-chartjs@2.5.7-rc3/dist/vue-chartjs.full.min.js"></script> -->
+  </head>
+
+  <body>
+    <div id="app">
+      {{ message }}
+      <line-chart></line-chart>
+    </div>
+
+    <script>
+      Vue.component("line-chart", {
+        // 'line-chart'라는 vue 컴포넌트 등록
+        extends: VueChartJs.Line, // vue-chartjs의 구성요소(VueChartJs) 확장, Line 그래프 사용(Line, Bar, Pie... 확장 가능)
+        mounted() {
+          this.renderChart(
+            // renderChart 는 Line 컴포넌트에 의해 제공
+            {
+              labels: [
+                // 그래프 x축에 들어갈 값들
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+              ],
+              datasets: [
+                // x축의 값에 대한 datasets
+                {
+                  label: "Data One",
+                  backgroundColor: "#f87979",
+                  data: [40, 39, 10, 40, 39, 80, 40], // labels 와 data 인덱스 순서대로 매칭
+                },
+              ],
+            },
+            { responsive: true, maintainAspectRatio: false }
+          );
+        },
+      });
+    </script>
+    <script>
+      var app = new Vue({
+        el: "#app",
+        data: {
+          message: "Hello Vue!",
+        },
+      });
+    </script>
+  </body>
+</html>
