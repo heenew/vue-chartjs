@@ -1,33 +1,39 @@
+<!-- input 박스에 값(숫자)를 입력하여 해당하는 label의 데이터값을 바꿀 수 있습니다.  -->
+
 <!DOCTYPE html>
 <html>
   <head>
     <title>vue-chartjs example</title>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.0"></script>
-    <script src="https://unpkg.com/vue-chartjs@2.5.7-rc3/dist/vue-chartjs.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+    <script src="https://unpkg.com/vue-chartjs@3.4.0/dist/vue-chartjs.js"></script>
   </head>
   <body>
     <div id="app">
-      {{ message }}
-      <line-chart> </line-chart>
-      <button v-on:click="addTodo">문자열 추가</button>
+      <!-- {{ message }} -->
+      <bar-chart v-bind:input-d="inputData"> </bar-chart>
+      data1: <input type="number" v-model="inputData[0]" /> <br />
+      data2: <input type="number" v-model="inputData[1]" /> <br />
+      data3: <input type="number" v-model="inputData[2]" /> <br />
+      data4: <input type="number" v-model="inputData[3]" />
     </div>
 
     <script>
-      Vue.component("line-chart", {
-        extends: VueChartJs.Line,
-        template: "<div>21ddddddddddd3</div>",
-
+      Vue.component("bar-chart", {
+        extends: VueChartJs.Bar,
+        props: ["inputD"],
         data() {
           return {
             countries: [],
             country: [],
-            number: 3,
           };
         },
-
         mounted() {
           this.fetchCases();
+          this.$watch("inputD", function () {
+            this.renderC();
+          });
         },
         methods: {
           async fetchData(method, url, params) {
@@ -37,32 +43,34 @@
           async fetchCases() {
             const url = "https://api.covid19api.com/summary";
             const summary = await this.fetchData("get", url);
-            console.log(summary, "res");
-            console.log(summary.Countries);
+            // console.log(summary, "res");
+            // console.log(summary.Countries);
             this.countries = summary.Countries;
             //console.log(this.countries.length);
-            for (i = 0; i < this.countries.length; i++) {
+            for (let i = 0; i < this.countries.length; i++) {
               this.country[i] = summary.Countries[i].Country;
             }
-
+            this.renderC();
+          },
+          renderC() {
             this.renderChart(
               {
                 labels: [
-                  //this.country,
-                  //"January"   ,
+                  this.country[0],
                   this.country[1],
-                  "February",
-                  "March",
-                  "April",
-                  "May",
-                  "June",
-                  "Julay",
+                  this.country[2],
+                  this.country[3],
                 ],
                 datasets: [
                   {
                     label: "Data One",
                     backgroundColor: "#f87979",
-                    data: [this.number, 39, 10, 40, 39, 80, 40],
+                    data: [
+                      this.inputD[0],
+                      this.inputD[1],
+                      this.inputD[2],
+                      this.inputD[3],
+                    ],
                   },
                 ],
               },
@@ -75,12 +83,7 @@
       var vm = new Vue({
         el: "#app",
         data: {
-          message: "Hello World",
-        },
-        methods: {
-          addTodo() {
-            alert("Hi");
-          },
+          inputData: [0, 0, 0, 0],
         },
       });
     </script>
